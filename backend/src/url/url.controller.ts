@@ -8,10 +8,10 @@ import { Response } from 'express';
 export class UrlController {
   constructor(private urlService: UrlService) {}
 
-  @Post('url/shorten')
-  @UseGuards(AuthGuard('jwt')) // Apenas autenticados
-  shorten(@Body() dto: UrlDto, @Request() req) {
-    return this.urlService.shortenUrl(dto, req.user.id);
+  @Post('shorten')
+  async shorten(@Body() dto: UrlDto, @Request() req) {
+    const userId = req.user?.id || null; 
+    return this.urlService.shortenUrl(dto, userId);
   }
 
   @Get(':shortUrl')
