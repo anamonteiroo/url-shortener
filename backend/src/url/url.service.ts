@@ -27,4 +27,14 @@ export class UrlService {
       throw new BadRequestException('Error shortening URL');
     }
   }
+
+  async getOriginalUrl(shortUrl: string): Promise<string | null> {
+    const url = await this.prisma.url.update({
+      where: { short: shortUrl },
+      data: { clicks: { increment: 1 } },
+    });
+  
+    return url?.original || null;
+  }
+  
 }
