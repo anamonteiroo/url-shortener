@@ -20,7 +20,7 @@ export class AuthService {
   
       return { message: 'User registered successfully', user: userWithoutPassword };
     } catch (error) {
-      throw new BadRequestException('Email already in use');
+      throw new BadRequestException('Error registering user');
     }
   }
 
