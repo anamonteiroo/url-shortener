@@ -8,15 +8,15 @@ export class UrlService {
   constructor(private prisma: PrismaService) {}
 
   async shortenUrl(dto: UrlDto, userId?: string) {
-    const short = randomBytes(3).toString('hex');
+    const short = randomBytes(3).toString('hex'); 
 
     try {
       const url = await this.prisma.url.create({
         data: {
           original: dto.original,
           short,
-          userId,
-        },
+          userId 
+        }
       });
 
       return {
