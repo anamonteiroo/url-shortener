@@ -30,7 +30,7 @@ describe('UrlService', () => {
 
     const result = await urlService.shortenUrl({ original: 'https://example.com' });
 
-    expect(result.shortUrl).toContain('/go/');
+    expect(result.shortUrl).toContain("http://localhost:3000/abc123");
   });
 
   it('should retrieve original URL and increment clicks', async () => {
