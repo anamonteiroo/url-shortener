@@ -30,13 +30,22 @@ export class UrlService {
   }
 
   async getOriginalUrl(shortUrl: string): Promise<string | null> {
-    const url = await this.prisma.url.update({
+    const url = await this.prisma.url.findUnique({
+      where: { short: shortUrl },
+    });
+  
+    if (!url) {
+      return null; 
+    }
+  
+    await this.prisma.url.update({
       where: { short: shortUrl },
       data: { clicks: { increment: 1 } },
     });
-
-    return url?.original || null;
+  
+    return url.original;
   }
+  
 
   async getUserUrls(userId: string) {
     return this.prisma.url.findMany({

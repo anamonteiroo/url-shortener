@@ -4,13 +4,21 @@ import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
+const jwtServiceMock = {
+  sign: jest.fn(() => 'mockedToken'), // Retorna sempre um token fixo
+};
+
 describe('AuthService', () => {
   let authService: AuthService;
   let prisma: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService, PrismaService, JwtService],
+      providers: [
+        AuthService,
+        PrismaService,
+        { provide: JwtService, useValue: jwtServiceMock }, // Mock do JwtService
+      ],
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
