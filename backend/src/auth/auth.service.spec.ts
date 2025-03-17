@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
 const jwtServiceMock = {
-  sign: jest.fn(() => 'mockedToken'), // Retorna sempre um token fixo
+  sign: jest.fn(() => 'mockedToken'), 
 };
 
 describe('AuthService', () => {
@@ -17,7 +17,7 @@ describe('AuthService', () => {
       providers: [
         AuthService,
         PrismaService,
-        { provide: JwtService, useValue: jwtServiceMock }, // Mock do JwtService
+        { provide: JwtService, useValue: jwtServiceMock }, 
       ],
     }).compile();
 
