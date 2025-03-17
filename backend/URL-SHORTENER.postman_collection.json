@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "531c2586-78c6-448f-81c4-bee6aac7ef72",
+		"name": "URL-SHORTENER",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17093976"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"teste@teste.com\",\r\n  \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"teste@teste.com\",\r\n  \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shorten",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"original\": \"https://google.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/url/shorten",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"url",
+						"shorten"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "access-shorter-url",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE1NmI5NGZkLWU4Y2YtNDk2OC1iODI2LTZlMTFiODk0MWJkOSIsImVtYWlsIjoiYW5hbW9udGVpcm8xQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjUyOTE3LCJleHAiOjE3NDIyNTY1MTd9.SFbF_6lha-R9zFa-uLnVhIr7J9p8C-yfows6jpne0zM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"original\": \"https://google.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/ee2185",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ee2185"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "my-urls",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE1NmI5NGZkLWU4Y2YtNDk2OC1iODI2LTZlMTFiODk0MWJkOSIsImVtYWlsIjoiYW5hbW9udGVpcm8xQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjUyOTE3LCJleHAiOjE3NDIyNTY1MTd9.SFbF_6lha-R9zFa-uLnVhIr7J9p8C-yfows6jpne0zM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/url/my-urls",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"url",
+						"my-urls"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update:{id}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE1NmI5NGZkLWU4Y2YtNDk2OC1iODI2LTZlMTFiODk0MWJkOSIsImVtYWlsIjoiYW5hbW9udGVpcm8xQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjUyOTE3LCJleHAiOjE3NDIyNTY1MTd9.SFbF_6lha-R9zFa-uLnVhIr7J9p8C-yfows6jpne0zM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"original\": \"https://instagram.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/url/update/fe08e13e-e50e-4ab9-ad08-48aff8458981",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"url",
+						"update",
+						"fe08e13e-e50e-4ab9-ad08-48aff8458981"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE1NmI5NGZkLWU4Y2YtNDk2OC1iODI2LTZlMTFiODk0MWJkOSIsImVtYWlsIjoiYW5hbW9udGVpcm8xQGV4YW1wbGUuY29tIiwiaWF0IjoxNzQyMjUyOTE3LCJleHAiOjE3NDIyNTY1MTd9.SFbF_6lha-R9zFa-uLnVhIr7J9p8C-yfows6jpne0zM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/url/delete/fe08e13e-e50e-4ab9-ad08-48aff8458981",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"url",
+						"delete",
+						"fe08e13e-e50e-4ab9-ad08-48aff8458981"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
