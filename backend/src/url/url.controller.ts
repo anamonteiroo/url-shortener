@@ -1,19 +1,22 @@
-import { Controller, Post, Get, Patch, Param, NotFoundException, Body, UseGuards, Request, Res, Delete } from '@nestjs/common';
+import { Controller, Post, Get, Patch, Param, NotFoundException, Body, UseGuards, Req, Res, Delete } from '@nestjs/common';
 import { UrlService } from './url.service';
 import { UrlDto } from './dto/url.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { OptionalAuthGuard } from '../auth/optional-auth.guard';
 import { UpdateUrlDto } from './dto/update-url.dto';
 
 @Controller()
 export class UrlController {
-  constructor(private urlService: UrlService) {}
+  getUserUrls(arg0: { user: { id: string; }; }) {
+    throw new Error('Method not implemented.');
+  }
+  constructor(private urlService: UrlService) { }
 
   @Post('url/shorten')
   @UseGuards(OptionalAuthGuard)
-  async shorten(@Body() dto: UrlDto, @Request() req) {
-    const userId = req.user?.id || null; 
+  async shorten(@Body() dto: UrlDto, @Req() req) {
+    const userId = req.user?.sub || req.user?.id || null; 
     return this.urlService.shortenUrl(dto, userId);
   }
 
@@ -29,21 +32,23 @@ export class UrlController {
   }
 
   @Get('url/my-urls')
-  @UseGuards(AuthGuard('jwt'))
-  getUserUrls(@Request() req) {
-    return this.urlService.getUserUrls(req.user.id);
-  }
-
-  @Patch('url/update/:id')
-  @UseGuards(AuthGuard('jwt'))
-  updateUrl(@Request() req, @Param('id') urlId: string, @Body() dto: UpdateUrlDto) {
-    return this.urlService.updateUrl(req.user.id, urlId, dto);
-  }
-
-  @Delete('url/delete/:id')
-  @UseGuards(AuthGuard('jwt'))
-  deleteUrl(@Request() req, @Param('id') urlId: string) {
-    return this.urlService.deleteUrl(req.user.id, urlId);
-  }
+@UseGuards(AuthGuard('jwt'))
+async getMyUrls(@Req() req: Request) {
+    const userId = req.user?.id || req.user?.sub; 
+    return this.urlService.getUserUrls(userId);
 }
 
+
+@Patch('url/update/:id')
+@UseGuards(AuthGuard('jwt'))
+async updateUrl(@Param('id') id: string, @Body() data: UpdateUrlDto, @Req() req: any) {
+    return this.urlService.updateUrl(req.user.id, id, data);
+}
+
+@Delete('url/delete/:id')
+@UseGuards(AuthGuard('jwt'))
+async deleteUrl(@Param('id') id: string, @Req() req) {
+    return this.urlService.deleteUrl(req.user.id, id);
+}
+
+}

@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UrlDto } from './dto/url.dto';
 import { randomBytes } from 'crypto';
@@ -6,7 +6,7 @@ import { UpdateUrlDto } from './dto/update-url.dto';
 
 @Injectable()
 export class UrlService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async shortenUrl(dto: UrlDto, userId?: string) {
     const short = randomBytes(3).toString('hex');
@@ -16,8 +16,8 @@ export class UrlService {
         data: {
           original: dto.original,
           short,
-          userId
-        }
+          userId: userId || null, 
+        },
       });
 
       return {
@@ -33,19 +33,18 @@ export class UrlService {
     const url = await this.prisma.url.findUnique({
       where: { short: shortUrl },
     });
-  
+
     if (!url) {
-      return null; 
+      return null;
     }
-  
+
     await this.prisma.url.update({
       where: { short: shortUrl },
       data: { clicks: { increment: 1 } },
     });
-  
+
     return url.original;
   }
-  
 
   async getUserUrls(userId: string) {
     return this.prisma.url.findMany({
@@ -63,19 +62,27 @@ export class UrlService {
   async updateUrl(userId: string, urlId: string, dto: UpdateUrlDto) {
     const url = await this.prisma.url.findUnique({ where: { id: urlId } });
 
-    if (!url || url.userId !== userId || url.deletedAt !== null) {
-      throw new Error('URL not found or unauthorized');
+    if (!url) {
+      throw new Error('URL not found');
+    }
+
+    if (!url.userId) {
+      throw new Error('URL does not belong to any user');
+    }
+
+    if (url.userId !== userId || url.deletedAt !== null) {
+      throw new Error('Unauthorized');
     }
 
     try {
-      await this.prisma.url.update({
+      const updatedUrl = await this.prisma.url.update({
         where: { id: urlId },
         data: { original: dto.original },
       });
 
       return {
-        id: urlId,
-        original: dto.original,
+        id: updatedUrl.id,
+        original: updatedUrl.original,
       };
     } catch (error) {
       throw new BadRequestException('Error updating URL');
@@ -85,21 +92,29 @@ export class UrlService {
   async deleteUrl(userId: string, urlId: string) {
     const url = await this.prisma.url.findUnique({ where: { id: urlId } });
 
-    if (!url || url.userId !== userId || url.deletedAt !== null) {
-      throw new Error('URL not found or unauthorized');
+    if (!url) {
+      throw new Error('URL not found');
+    }
+
+    if (!url.userId) {
+      throw new Error('URL does not belong to any user');
+    }
+
+    if (url.userId !== userId || url.deletedAt !== null) {
+      throw new Error('Unauthorized');
     }
 
     try {
-      const deletedAt = new Date()
+      const deletedAt = new Date();
 
       await this.prisma.url.update({
         where: { id: urlId },
-        data: { deletedAt: deletedAt },
+        data: { deletedAt },
       });
 
       return {
         id: urlId,
-        deletedAt: deletedAt,
+        deletedAt,
       };
     } catch (error) {
       throw new BadRequestException('Error deleting URL');
