@@ -1,98 +1,236 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Encurtador de URLs com NestJS
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto é um serviço de encurtamento de URLs construído com NestJS. Ele permite que os usuários encurtem URLs longas, gerenciem suas URLs encurtadas e realizem operações como atualização e exclusão.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Funcionalidades
 
-## Description
+- **Encurtar URLs**: Transforma URLs longas em URLs curtas e já permitindo o seu acesso direto.
+- **Listar URLs do usuário**: Retorna todas as URLs encurtadas por um usuário específico com a atualização do número de cliques.
+- **Atualizar URLs**: Permite a atualização da URL original associada a uma URL encurtada.
+- **Excluir URLs**: Realiza a exclusão lógica (soft delete) de uma URL encurtada.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tecnologias Utilizadas
 
-## Project setup
+- **NestJS**: Framework para construção de aplicações server-side em Node.js.
+- **TypeORM**: ORM para interação com o banco de dados.
+- **Jest**: Framework de testes para garantir a qualidade do código.
+- **SQLite/PostgreSQL**: Banco de dados para armazenar as URLs e informações dos usuários.
 
-```bash
-$ npm install
-```
+## Pré-requisitos
 
-## Compile and run the project
+- Node.js (v18 ou superior)
+- npm ou yarn
+- Banco de dados (SQLite, PostgreSQL, etc.)
+
+## Como Configurar
+
+### 1. Clone o repositório
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/anamonteiroo/url-shortener.git
+cd encurtador-url
 ```
 
-## Run tests
+### 2. Instale as dependências
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+cd backend
+npm install
+# ou
+yarn install
 ```
 
-## Deployment
+### 3. Configure o banco de dados
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Crie um arquivo `.env` na raiz do projeto e adicione as variáveis de ambiente:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```env
+DATABASE_URL="file:./prisma/dev.db"
+JWT_SECRET=mysecretkey
+```
+
+### 4. Execute as migrações
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+npx prisma migrate dev
+# ou
+yarn prisma migrate dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 5. Inicie o servidor
 
-## Resources
+```bash
+npm run start
+# ou
+yarn start
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+O servidor estará rodando em `http://localhost:3000`.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Como Usar
 
-## Support
+### Registrar Usuário
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**Endpoint:** `POST /auth/register`
 
-## Stay in touch
+**Body:**
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```json
+{
+  "email": "teste@teste.com.br",
+  "password": "123456"
+}
+```
 
-## License
+**Response**
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```json
+{
+    "message": "User registered successfully",
+    "user": {
+        "id": "a5011206-7b0f-4b68-b7eb-7ed7c6766e78",
+        "email": "teste@teste.com.br",
+        "createdAt": "2025-03-17T22:44:32.141Z"
+    }
+}
+```
+
+### Logar Usuário
+
+**Endpoint:** `POST /auth/login`
+
+**Body:**
+
+```json
+{
+  "email": "teste@teste.com.br",
+  "password": "123456"
+}
+```
+
+**Response**
+
+```json
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE1MDExMjA2LTdiMGYtNGI2OC1iN2ViLTdlZDdjNjc2NmU3OCIsImVtYWlsIjoidGVzdGVAdGVzdGUuY29tLmJyIiwiaWF0IjoxNzQyMjUxNTYwLCJleHAiOjE3NDIyNTUxNjB9.k42znT1bVXZObCt04qXoQHlwnNRKKnHn5JbINLepins"
+}
+```
+
+### Encurtar uma URL (pode estar ou não autenticado. Somente quando autenticado é possível fazer a listagem, atualização e deleção)
+
+**Endpoint:** `POST /url/shorten`
+
+**Body:**
+
+```json
+{
+  "original": "http://www.google.com.br"
+}
+```
+
+**Response:**
+
+```json
+{
+  "message": "URL shortened successfully",
+  "shortUrl": "http://localhost:3000/a91141"
+}
+```
+
+### Listar URLs do Usuário (deve estar autenticado)
+
+**Endpoint:** `GET /url/my-urls`
+
+**Response:**
+
+```json
+[
+    {
+        "id": "ea8d502c-662a-4415-9ce5-5ec79f203756",
+        "original": "http://www.google.com.br",
+        "short": "ff81c5",
+        "clicks": 0,
+        "createdAt": "2025-03-17T22:47:34.105Z"
+    }
+]
+```
+
+### Atualizar uma URL
+
+**Endpoint:** `PATCH /url/update/:id`
+
+**Body:**
+
+```json
+{
+  "original": "http://www.youtube.com.br"
+}
+```
+
+**Response:**
+
+```json
+{
+    "id": "ea8d502c-662a-4415-9ce5-5ec79f203756",
+    "original": "http://www.youtube.com.br"
+}
+```
+
+### Excluir uma URL
+
+**Endpoint:** `DELETE /url/delete/:id`
+
+**Response:**
+
+```json
+{
+    "id": "ea8d502c-662a-4415-9ce5-5ec79f203756",
+    "deletedAt": "2025-03-17T22:52:05.823Z"
+}
+```
+
+## Acessar URL Encurtada
+Ao acessar a URL encurtada, ex: http://localhost:3000/:shortUrl, é possível acessar o endereço original. Cada acesso à essa URL é contabilizada no banco de dados e pode ser vista na lista de URLs do usuário.
+
+## Postman
+
+O arquivo do **Postman** está disponível na raiz do projeto para auxiliar nos testes da API.
+
+## Executando os Testes
+
+Para executar os testes, use o seguinte comando:
+
+```bash
+npm run test
+# ou
+yarn test
+```
+
+Os testes incluem:
+
+- Testes unitários para o controlador e serviço.
+
+
+## Escalabilidade do projeto
+
+1. Uso de Banco de Dados Escalável
+- **PostgreSQL**: Usar o PostgreSQL para recursos como replicação e particionamento de dados.
+- **Sharding**: Dividir os dados entre múltiplos bancos para escalar horizontalmente.
+
+2. Balanceamento de Carga
+- **Balanceador de Carga**: Usar **Nginx** ou **HAProxy** para distribuir as requisições entre várias instâncias.
+- **Docker e Kubernetes**: Utilizar containers com Docker e orquestre com Kubernetes para escalar automaticamente.
+
+3. Monitoramento e Logging Centralizado
+- **Logs**: Usar ferramentas como **Winston** ou **Pino** para logs estruturados e centralize-os com **Elasticsearch** ou **Grafana Loki**.
+- **Monitoramento**: Utilizar **Prometheus** e **Grafana** para monitorar a performance e saúde do sistema.
+
+4. Testes e CI/CD
+- **CI/CD**: Configurar pipelines para testes automáticos e deploy usando **GitLab CI**, **Jenkins** ou **GitHub Actions**.
+- **Testes de Carga**: Usar ferramentas como **Artillery** ou **JMeter** para simular tráfego e verificar a performance.
+
+5. Arquitetura de Microserviços
+- **Microserviços**: Separar funcionalidades em microserviços independentes (ex: encurtamento de URL, gerenciamento de usuários).
+- **API Gateway**: Usar um API Gateway para orquestrar e balancear requisições entre microserviços.
+
+#### Desenvolvido por Ana Monteiro.
