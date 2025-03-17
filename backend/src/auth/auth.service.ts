@@ -20,6 +20,7 @@ export class AuthService {
   
       return { message: 'User registered successfully', user: userWithoutPassword };
     } catch (error) {
+      console.log(error)
       throw new BadRequestException('Error registering user');
     }
   }
